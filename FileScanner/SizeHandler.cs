@@ -22,7 +22,7 @@ namespace FileScanner
 
         public void Handle(FileInfo file)
         {
-            averageSize = (avg: (averageSize.avg * averageSize.count + file.Name.Length) / (averageSize.count + 1), count: averageSize.count + 1);
+            averageSize = (avg: (averageSize.avg * averageSize.count + file.Length) / (averageSize.count + 1), count: averageSize.count + 1);
         }
     }
 
