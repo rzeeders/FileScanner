@@ -18,6 +18,8 @@ namespace FileScanner
 
         public void Scan(string directory = ".")
         {
+            logger.Verbose("Scanning {Directory}", directory);
+
             foreach(var dir in EnumerateDirectories(directory))
             {
                 Scan(dir);
@@ -41,6 +43,7 @@ namespace FileScanner
             }
             catch(System.UnauthorizedAccessException)
             {
+                logger.Warning("EnumerateDirectories: Can't access {Directory}, so skipping it", directory);
                 return new string[0];
             }
         }
@@ -53,6 +56,7 @@ namespace FileScanner
             }
             catch (System.UnauthorizedAccessException)
             {
+                logger.Warning("EnumerateFiles: Can't access {Directory}, so skipping it", directory);
                 return new string[0];
             }
         }

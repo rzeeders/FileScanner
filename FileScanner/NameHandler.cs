@@ -17,11 +17,14 @@ namespace FileScanner
 
         public string GetStatistics()
         {
+            logger.Information("Getting statistics");
             return $"Average name length: {averageNameLength.avg} characters";
         }
 
         public void Handle(FileInfo file)
         {
+            logger.Verbose("Handling {File}", file.FullName);
+
             averageNameLength = (avg: (averageNameLength.avg * averageNameLength.count + file.Name.Length) / (averageNameLength.count + 1), count: averageNameLength.count + 1);
         }
     }

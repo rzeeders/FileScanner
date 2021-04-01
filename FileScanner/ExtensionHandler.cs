@@ -13,13 +13,14 @@ namespace FileScanner
 
         public ExtensionHandler(ILogger logger)
         {
-            this.logger = logger.ForContext<NameHandler>();
+            this.logger = logger.ForContext<ExtensionHandler>();
         }
 
         public string Name => "Extension statistics";
 
         public string GetStatistics()
         {
+            logger.Information("Getting statistics");
             StringBuilder sb = new StringBuilder();
             foreach (var kvp in extensions.ToList().OrderByDescending(x => x.Value))
             {
@@ -30,6 +31,7 @@ namespace FileScanner
 
         public void Handle(FileInfo file)
         {
+            logger.Verbose("Handling {File}", file.FullName);
             if (!extensions.TryGetValue(file.Extension, out int count)) count = 0;
             extensions[file.Extension] = count + 1;
         }

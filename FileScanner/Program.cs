@@ -10,7 +10,7 @@ namespace FileScanner
         static void Main(string[] args)
         {
             Log.Logger = new LoggerConfiguration()
-                .MinimumLevel.Verbose()
+                .MinimumLevel.Information()
                 .WriteTo.File(Path.Join(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "FileScanner", "log.txt"), rollingInterval: RollingInterval.Day)
                 .WriteTo.File(Path.Join(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "FileScanner", "logext.txt"), 
                     rollingInterval: RollingInterval.Day, 
@@ -31,16 +31,21 @@ namespace FileScanner
             var scanner = provider.GetRequiredService<FileScanner>();
             try
             {
+                Log.Verbose("Starting scan");
                 scanner.Scan();
+                Log.Verbose("Getting statistics");
                 string stats = scanner.GetStatistics();
+                Log.Debug(stats);
                 Console.WriteLine(stats);
             }
             catch(Exception e)
             {
+                Log.Error(e, "An error occurred that caused to program to exit");
                 Console.Error.WriteLine("An unexpected error occurred. Please, contact your system administrator.");
             }
             finally
             {
+                Log.Information("Done, exiting application");
                 Log.CloseAndFlush();
             }
 

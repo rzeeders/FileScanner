@@ -20,8 +20,9 @@ namespace FileScanner
 
         public string GetStatistics()
         {
+            logger.Information("Getting statistics");
             StringBuilder sb = new StringBuilder();
-            foreach(var kvp in numberOfFilesPerYear.ToList().OrderByDescending(x => x.Key))
+            foreach (var kvp in numberOfFilesPerYear.ToList().OrderByDescending(x => x.Key))
             {
                 sb.AppendLine($"{kvp.Key}: {kvp.Value} files");
             }
@@ -30,6 +31,7 @@ namespace FileScanner
 
         public void Handle(FileInfo file)
         {
+            logger.Verbose("Handling {File}", file.FullName);
             if (!numberOfFilesPerYear.TryGetValue(file.LastWriteTimeUtc.Year, out int count)) count = 0;
             numberOfFilesPerYear[file.LastWriteTimeUtc.Year] = count + 1;
         }
