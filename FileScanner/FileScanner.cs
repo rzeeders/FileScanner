@@ -23,14 +23,20 @@ namespace FileScanner
                 Scan(dir);
             }
 
-            foreach(var file in EnumerateFiles(directory))
+            int count = 0;
+
+            foreach (var file in EnumerateFiles(directory))
             {
+                count++;
                 FileInfo fi = new FileInfo(file);
                 foreach(var handler in handlers)
                 {
+                    this.logger.Verbose("Handling file {File}", fi.FullName);
                     handler.Handle(fi);
                 }
             }
+
+            this.logger.Information("{Count} files in {Directory}", count, directory);
         }
 
         private IEnumerable<string> EnumerateDirectories(string directory)
@@ -41,6 +47,7 @@ namespace FileScanner
             }
             catch(System.UnauthorizedAccessException)
             {
+                logger.Warning("Not authorized to read {UnauthorizedDirectory}", directory);
                 return new string[0];
             }
         }
@@ -53,6 +60,7 @@ namespace FileScanner
             }
             catch (System.UnauthorizedAccessException)
             {
+                logger.Warning("Not authorized to read {UnauthorizedDirectory}", directory);
                 return new string[0];
             }
         }

@@ -17,6 +17,7 @@ namespace FileScanner
 
         public string GetStatistics()
         {
+            logger.Information("Average size is {AverageSize}", averageSize.avg);
             return $"Average file size: {averageSize.avg} bytes";
         }
 

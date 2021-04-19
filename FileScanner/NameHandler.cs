@@ -17,6 +17,7 @@ namespace FileScanner
 
         public string GetStatistics()
         {
+            logger.Information("Average size is {AverageNameLength}", averageNameLength.avg);
             return $"Average name length: {averageNameLength.avg} characters";
         }
 

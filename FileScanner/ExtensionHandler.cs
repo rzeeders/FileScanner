@@ -23,6 +23,8 @@ namespace FileScanner
             StringBuilder sb = new StringBuilder();
             foreach (var kvp in extensions.ToList().OrderByDescending(x => x.Value))
             {
+                logger.Information("Number of files for extension {Extension} is {ExtensionFileCount}", kvp.Key, kvp.Value);
+
                 sb.AppendLine($"{kvp.Key}: {kvp.Value} files");
             }
             return sb.ToString();
